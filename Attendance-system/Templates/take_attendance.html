@@ -1,1 +1,101 @@
+{% extends 'base.html' %}
 
+{% block title %}Take Attendance - Attendance System{% endblock %}
+
+{% block content %}
+
+<style>
+    .attendance-container {
+        background: white;
+        border-radius: 16px;
+        padding: 2rem;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+    
+    .attendance-container h2 {
+        font-size: 2rem;
+        color: #1a1a2e;
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+    
+    .attendance-container h2 span {
+        color: #f0a500;
+    }
+    
+    .attendance-container .form-fields {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+        background: #f8f9fa;
+        padding: 1.5rem;
+        border-radius: 10px;
+    }
+    
+    .attendance-container .form-fields label {
+        font-weight: 600;
+        display: block;
+        margin-bottom: 0.3rem;
+        color: #333;
+    }
+    
+    .attendance-container .form-fields input {
+        width: 100%;
+        padding: 0.8rem;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        font-size: 1rem;
+    }
+    
+    .attendance-container .form-fields input:focus {
+        border-color: #f0a500;
+        outline: none;
+    }
+    
+    .attendance-container .table-container {
+        overflow-x: auto;
+        margin-top: 1rem;
+    }
+    
+    .attendance-container table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    
+    .attendance-container thead {
+        background: linear-gradient(135deg, #1a1a2e, #16213e);
+        color: white;
+    }
+    
+    .attendance-container th {
+        padding: 0.8rem 1rem;
+        text-align: left;
+        font-weight: 600;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+    }
+    
+    .attendance-container td {
+        padding: 0.7rem 1rem;
+        border-bottom: 1px solid #e9ecef;
+    }
+    
+    .attendance-container tr:hover td {
+        background: #f8f9fa;
+    }
+    
+    .status-radio {
+        display: flex;
+        gap: 1rem;
+    }
+    
+    .status-radio label {
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+        cursor: pointer;
+        font-weight: 500;
+    }
+    
+    .status-radio input[
