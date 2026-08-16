@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - Attendance System{% endblock %}
+
+{% block content %}
+
+<style>
+    .hero {
+        text-align: center;
+        padding: 4rem 2rem;
+        background: linear-gradient(135deg, #1a1a2e, #16213e);
+        border-radius: 16px;
+        color: white;
+        margin-bottom: 2rem;
+    }
+    
+    .hero h1 {
+        font-size: 3rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .hero h1 span {
+        color: #f0a500;
+    }
+    
+    .hero p {
+        font-size: 1.2rem;
+        color: #c8d6e5;
+        margin-bottom: 1.5rem;
+    }
+    
+    .hero .btn {
+        display: inline-block;
+        padding: 0.8rem 2.5rem;
+        background: #f0a500;
+        color: #1a1a2e;
+        text-decoration: none;
+        border-radius: 30px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    .hero .btn:hover {
+        background: #ffb800;
+        transform: scale(1.05);
+    }
+    
+    .features {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 1.5rem;
+        margin-top: 2rem;
+    }
+    
+    .feature-card {
+        background: white;
+        padding: 2rem 1.5rem;
+        border-radius: 12px;
+        text-align: center;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .feature-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+    
+    .feature-card .icon {
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .feature-card h3 {
+        color: #1a1a2e;
+        margin-bottom: 0.3rem;
+    }
+    
+    .feature-card p {
+        color: #6c757d;
+        font-size: 0.9rem;
+    }
+</style>
+
+<div class="hero">
+    <h1>Welcome to <span>Attendance</span> System</h1>
+    <p>Manage student attendance easily and efficiently.</p>
+    
+    {% if current_user.is_authenticated %}
+        <a href="{{ url_for('dashboard') }}" class="btn">📊 Go to Dashboard</a>
+    {% else %}
+        <a href="{{ url_for('login') }}" class="btn">🔑 Login to Start</a>
+    {% endif %}
+</div>
+
+<div class="features">
+    <div class="feature-card">
+        <div class="icon">👥</div>
+        <h3>Student Management</h3>
+        <p>Add, edit, and delete student records easily.</p>
+    </div>
+    
+    <div class="feature-card">
+        <div class="icon">✅</div>
+        <h3>Take Attendance</h3>
+        <p>Mark attendance by date and subject.</p>
+    </div>
+    
+    <div class="feature-card">
+        <div class="icon">📊</div>
+        <h3>Dashboard</h3>
+        <p>View statistics and attendance analytics.</p>
+    </div>
+    
+    <div class="feature-card">
+        <div class="icon">📋</div>
+        <h3>View Records</h3>
+        <p>Filter and view all attendance records.</p>
+    </div>
+</div>
+
+{% endblock %}
