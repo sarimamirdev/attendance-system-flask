@@ -1,0 +1,270 @@
+{% extends 'base.html' %}
+
+{% block title %}View Attendance - Attendance System{% endblock %}
+
+{% block content %}
+
+<style>
+    .attendance-container {
+        background: white;
+        border-radius: 16px;
+        padding: 2rem;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+    
+    .attendance-container h2 {
+        font-size: 2rem;
+        color: #1a1a2e;
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+    
+    .attendance-container h2 span {
+        color: #f0a500;
+    }
+    
+    .filter-section {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 1rem;
+        background: #f8f9fa;
+        padding: 1.5rem;
+        border-radius: 10px;
+        margin-bottom: 1.5rem;
+    }
+    
+    .filter-section label {
+        font-weight: 600;
+        display: block;
+        margin-bottom: 0.3rem;
+        color: #333;
+        font-size: 0.9rem;
+    }
+    
+    .filter-section select,
+    .filter-section input {
+        width: 100%;
+        padding: 0.6rem;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        font-size: 0.95rem;
+        background: white;
+        transition: border-color 0.3s ease;
+    }
+    
+    .filter-section select:focus,
+    .filter-section input:focus {
+        border-color: #f0a500;
+        outline: none;
+    }
+    
+    .filter-section .btn-filter {
+        padding: 0.6rem 1.5rem;
+        background: #f0a500;
+        color: #1a1a2e;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.3s ease;
+        margin-top: 1.5rem;
+    }
+    
+    .filter-section .btn-filter:hover {
+        background: #ffb800;
+    }
+    
+    .filter-section .btn-reset {
+        padding: 0.6rem 1.5rem;
+        background: #e9ecef;
+        color: #333;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.3s ease;
+        margin-top: 1.5rem;
+        text-decoration: none;
+        text-align: center;
+    }
+    
+    .filter-section .btn-reset:hover {
+        background: #dee2e6;
+    }
+    
+    .filter-section .filter-actions {
+        display: flex;
+        gap: 0.5rem;
+        align-items: flex-end;
+    }
+    
+    .table-container {
+        overflow-x: auto;
+        margin-top: 1rem;
+    }
+    
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    
+    thead {
+        background: linear-gradient(135deg, #1a1a2e, #16213e);
+        color: white;
+    }
+    
+    th {
+        padding: 0.8rem 1.2rem;
+        text-align: left;
+        font-weight: 600;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        white-space: nowrap;
+    }
+    
+    td {
+        padding: 0.7rem 1.2rem;
+        border-bottom: 1px solid #e9ecef;
+        color: #333;
+        font-size: 0.95rem;
+    }
+    
+    tr:hover td {
+        background: #f8f9fa;
+    }
+    
+    .status-present {
+        color: #28a745;
+        font-weight: 600;
+    }
+    
+    .status-absent {
+        color: #dc3545;
+        font-weight: 600;
+    }
+    
+    .empty-msg {
+        text-align: center;
+        padding: 3rem;
+        color: #6c757d;
+    }
+    
+    .empty-msg .big-icon {
+        font-size: 3rem;
+    }
+    
+    .records-count {
+        margin-top: 1rem;
+        color: #6c757d;
+        font-size: 0.9rem;
+        text-align: right;
+    }
+    
+    @media (max-width: 768px) {
+        .filter-section {
+            grid-template-columns: 1fr;
+        }
+        
+        .filter-section .filter-actions {
+            flex-direction: column;
+        }
+        
+        th, td {
+            padding: 0.5rem 0.8rem;
+            font-size: 0.85rem;
+        }
+    }
+</style>
+
+<div class="attendance-container">
+    <h2>📋 <span>Attendance</span> Records</h2>
+    
+    <!-- Filter Section -->
+    <form method="GET" class="filter-section">
+        <div>
+            <label for="subject">Subject</label>
+            <select name="subject" id="subject">
+                <option value="">All Subjects</option>
+                {% for subject in subjects %}
+                    <option value="{{ subject[0] }}" {% if filter_subject == subject[0] %}selected{% endif %}>
+                        {{ subject[0] }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div>
+            <label for="date">Date</label>
+            <input type="date" name="date" id="date" value="{{ filter_date }}">
+        </div>
+        
+        <div>
+            <label for="status">Status</label>
+            <select name="status" id="status">
+                <option value="">All Status</option>
+                <option value="Present" {% if filter_status == 'Present' %}selected{% endif %}>Present</option>
+                <option value="Absent" {% if filter_status == 'Absent' %}selected{% endif %}>Absent</option>
+            </select>
+        </div>
+        
+        <div class="filter-actions">
+            <button type="submit" class="btn-filter">🔍 Filter</button>
+            <a href="{{ url_for('view_attendance') }}" class="btn-reset">🔄 Reset</a>
+        </div>
+    </form>
+    
+    <!-- Table -->
+    <div class="table-container">
+        {% if records %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Student Name</th>
+                        <th>Roll Number</th>
+                        <th>Class</th>
+                        <th>Subject</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record in records %}
+                        <tr>
+                            <td>{{ record.date.strftime('%Y-%m-%d') }}</td>
+                            <td>{{ record.student.name }}</td>
+                            <td>{{ record.student.roll_number }}</td>
+                            <td>{{ record.student.class_name }}</td>
+                            <td>{{ record.subject }}</td>
+                            <td>
+                                {% if record.status == 'Present' %}
+                                    <span class="status-present">✅ Present</span>
+                                {% else %}
+                                    <span class="status-absent">❌ Absent</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="records-count">
+                Showing {{ records|length }} record(s)
+            </div>
+        {% else %}
+            <div class="empty-msg">
+                <div class="big-icon">📋</div>
+                <h3>No attendance records found</h3>
+                <p>Try adjusting your filters or mark attendance first.</p>
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Back Button -->
+    <div style="margin-top: 1.5rem; text-align: center;">
+        <a href="{{ url_for('dashboard') }}" style="display: inline-block; padding: 0.6rem 2rem; background: #e9ecef; color: #333; text-decoration: none; border-radius: 8px; font-weight: 600; transition: background 0.3s ease;" onmouseover="this.style.background='#dee2e6'" onmouseout="this.style.background='#e9ecef'">
+            ← Back to Dashboard
+        </a>
+    </div>
+</div>
+
+{% endblock %}
