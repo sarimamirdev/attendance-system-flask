@@ -1,1 +1,116 @@
+{% extends 'base.html' %}
 
+{% block title %}Edit Student - Attendance System{% endblock %}
+
+{% block content %}
+
+<style>
+    .form-container {
+        max-width: 600px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 16px;
+        padding: 2.5rem;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+    
+    .form-container h2 {
+        font-size: 2rem;
+        color: #1a1a2e;
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+    
+    .form-container h2 span {
+        color: #f0a500;
+    }
+    
+    .form-container label {
+        font-weight: 600;
+        display: block;
+        margin: 0.8rem 0 0.3rem;
+        color: #333;
+    }
+    
+    .form-container input {
+        width: 100%;
+        padding: 0.8rem;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+    }
+    
+    .form-container input:focus {
+        border-color: #f0a500;
+        outline: none;
+    }
+    
+    .form-container .btn-submit {
+        width: 100%;
+        padding: 0.9rem;
+        background: #f0a500;
+        color: #1a1a2e;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        margin-top: 1.5rem;
+        transition: background 0.3s ease;
+    }
+    
+    .form-container .btn-submit:hover {
+        background: #ffb800;
+    }
+    
+    .form-container .form-actions {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+    
+    .form-container .form-actions .btn-cancel {
+        flex: 1;
+        padding: 0.9rem;
+        background: #e9ecef;
+        color: #333;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        text-align: center;
+        text-decoration: none;
+        font-weight: 600;
+        transition: background 0.3s ease;
+    }
+    
+    .form-container .form-actions .btn-cancel:hover {
+        background: #dee2e6;
+    }
+</style>
+
+<div class="form-container">
+    <h2>✏️ <span>Edit</span> Student</h2>
+    
+    <form method="POST">
+        <label for="roll_number">Roll Number</label>
+        <input type="text" name="roll_number" id="roll_number" value="{{ student.roll_number }}" required>
+        
+        <label for="name">Student Name</label>
+        <input type="text" name="name" id="name" value="{{ student.name }}" required>
+        
+        <label for="class_name">Class</label>
+        <input type="text" name="class_name" id="class_name" value="{{ student.class_name }}" required>
+        
+        <label for="section">Section</label>
+        <input type="text" name="section" id="section" value="{{ student.section }}" required>
+        
+        <button type="submit" class="btn-submit">💾 Update Student</button>
+    </form>
+    
+    <div class="form-actions">
+        <a href="{{ url_for('view_students') }}" class="btn-cancel">← Back to Students</a>
+    </div>
+</div>
+
+{% endblock %}
