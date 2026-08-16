@@ -1,1 +1,102 @@
+{% extends 'base.html' %}
 
+{% block title %}Login - Attendance System{% endblock %}
+
+{% block content %}
+
+<style>
+    .auth-container {
+        max-width: 400px;
+        margin: 2rem auto;
+        background: white;
+        border-radius: 16px;
+        padding: 2.5rem;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    
+    .auth-container h2 {
+        text-align: center;
+        font-size: 2rem;
+        color: #1a1a2e;
+        margin-bottom: 1.5rem;
+    }
+    
+    .auth-container h2 span {
+        color: #f0a500;
+    }
+    
+    .auth-container label {
+        font-weight: 600;
+        display: block;
+        margin: 0.8rem 0 0.3rem;
+        color: #333;
+    }
+    
+    .auth-container input {
+        width: 100%;
+        padding: 0.8rem;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+    }
+    
+    .auth-container input:focus {
+        border-color: #f0a500;
+        outline: none;
+    }
+    
+    .auth-container .btn-auth {
+        width: 100%;
+        padding: 0.9rem;
+        background: #f0a500;
+        color: #1a1a2e;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        margin-top: 1.5rem;
+        transition: background 0.3s ease;
+    }
+    
+    .auth-container .btn-auth:hover {
+        background: #ffb800;
+    }
+    
+    .auth-container .login-info {
+        margin-top: 1.5rem;
+        padding: 1rem;
+        background: #f8f9fa;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        color: #6c757d;
+        text-align: center;
+    }
+    
+    .auth-container .login-info strong {
+        color: #333;
+    }
+</style>
+
+<div class="auth-container">
+    <h2>🔑 <span>Login</span></h2>
+    
+    <form method="POST">
+        <label for="username">Username</label>
+        <input type="text" name="username" id="username" placeholder="Enter your username" required>
+        
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" placeholder="Enter your password" required>
+        
+        <button type="submit" class="btn-auth">Login</button>
+    </form>
+    
+    <div class="login-info">
+        <strong>Demo Credentials:</strong><br>
+        Username: <code>teacher</code><br>
+        Password: <code>teacher123</code>
+    </div>
+</div>
+
+{% endblock %}
